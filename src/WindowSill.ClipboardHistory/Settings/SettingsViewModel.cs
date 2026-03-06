@@ -26,6 +26,12 @@ internal sealed partial class SettingsViewModel : ObservableObject
         set => _settingsProvider.SetSetting(Settings.HidePasswords, value);
     }
 
+    public bool CompactMode
+    {
+        get => _settingsProvider.GetSetting(Settings.CompactMode);
+        set => _settingsProvider.SetSetting(Settings.CompactMode, value);
+    }
+
     public bool IsClipboardHistoryEnabled => Clipboard.IsHistoryEnabled();
 
     public bool IsClipboardHistoryDisabled => !IsClipboardHistoryEnabled;

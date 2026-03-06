@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -137,5 +137,11 @@
   </data>
   <data name="OpenWindowsClipboardHistorySettings.HeaderProperty" xml:space="preserve">
     <value>Відкрити налаштування історії буфера обміну Windows</value>
+  </data>
+  <data name="CompactMode.HeaderProperty" xml:space="preserve">
+    <value>Компактний режим</value>
+  </data>
+  <data name="CompactMode.DescriptionProperty" xml:space="preserve">
+    <value>Відображати всі елементи буфера обміну в одному спливаючому вікні замість окремих елементів на панелі</value>
   </data>
 </root>

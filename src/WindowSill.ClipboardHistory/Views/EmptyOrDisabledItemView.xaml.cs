@@ -1,3 +1,4 @@
+using WindowSill.API;
 using WindowSill.ClipboardHistory.ViewModels;
 
 namespace WindowSill.ClipboardHistory.Views;
@@ -7,9 +8,9 @@ namespace WindowSill.ClipboardHistory.Views;
 /// </summary>
 internal sealed partial class EmptyOrDisabledItemView : UserControl
 {
-    internal EmptyOrDisabledItemView()
+    internal EmptyOrDisabledItemView(IPluginInfo pluginInfo)
     {
-        ViewModel = new EmptyOrDisabledItemViewModel();
+        ViewModel = new EmptyOrDisabledItemViewModel(pluginInfo);
         InitializeComponent();
     }
 

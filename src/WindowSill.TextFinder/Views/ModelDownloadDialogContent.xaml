@@ -21,8 +21,8 @@
             Visibility="Visible">
 
             <TextBlock
-                Style="{ThemeResource BodyTextBlockStyle}"
                 api:Uids.Uid="/WindowSill.TextFinder/ModelDownloadDialogContent/Description"
+                Style="{ThemeResource BodyTextBlockStyle}"
                 TextWrapping="Wrap" />
 
             <StackPanel
@@ -47,9 +47,9 @@
                     <TextBlock
                         Grid.Column="1"
                         VerticalAlignment="Center"
+                        api:Uids.Uid="/WindowSill.TextFinder/ModelDownloadDialogContent/ModelName"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         IsTextSelectionEnabled="True"
-                        api:Uids.Uid="/WindowSill.TextFinder/ModelDownloadDialogContent/ModelName"
                         TextWrapping="Wrap" />
                 </Grid>
 
@@ -68,9 +68,9 @@
                     <TextBlock
                         Grid.Column="1"
                         VerticalAlignment="Center"
+                        api:Uids.Uid="/WindowSill.TextFinder/ModelDownloadDialogContent/DownloadSize"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         IsTextSelectionEnabled="True"
-                        api:Uids.Uid="/WindowSill.TextFinder/ModelDownloadDialogContent/DownloadSize"
                         TextWrapping="Wrap" />
                 </Grid>
 
@@ -89,9 +89,9 @@
                     <TextBlock
                         Grid.Column="1"
                         VerticalAlignment="Center"
+                        api:Uids.Uid="/WindowSill.TextFinder/ModelDownloadDialogContent/RunsPrivately"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         IsTextSelectionEnabled="True"
-                        api:Uids.Uid="/WindowSill.TextFinder/ModelDownloadDialogContent/RunsPrivately"
                         TextWrapping="Wrap" />
                 </Grid>
 
@@ -109,9 +109,9 @@
             </StackPanel>
 
             <TextBlock
+                api:Uids.Uid="/WindowSill.TextFinder/ModelDownloadDialogContent/DownloadOnce"
                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                 Style="{ThemeResource CaptionTextBlockStyle}"
-                api:Uids.Uid="/WindowSill.TextFinder/ModelDownloadDialogContent/DownloadOnce"
                 TextWrapping="Wrap" />
 
         </StackPanel>
@@ -124,8 +124,8 @@
             Visibility="Collapsed">
 
             <TextBlock
-                Style="{ThemeResource BodyTextBlockStyle}"
                 api:Uids.Uid="/WindowSill.TextFinder/ModelDownloadDialogContent/Downloading"
+                Style="{ThemeResource BodyTextBlockStyle}"
                 TextWrapping="Wrap" />
 
             <ProgressBar

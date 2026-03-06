@@ -1,5 +1,3 @@
-using CommunityToolkit.WinUI.Controls;
-
 namespace WindowSill.ClipboardHistory.FirstTimeSetup;
 
 /// <summary>

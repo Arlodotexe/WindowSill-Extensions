@@ -1,7 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
+using WindowSill.API;
 namespace WindowSill.ClipboardHistory.ViewModels;
 
 /// <summary>
@@ -9,11 +11,16 @@ namespace WindowSill.ClipboardHistory.ViewModels;
 /// </summary>
 internal sealed partial class EmptyOrDisabledItemViewModel : ObservableObject
 {
-    internal EmptyOrDisabledItemViewModel()
+    private readonly IPluginInfo _pluginInfo;
+
+    internal EmptyOrDisabledItemViewModel(IPluginInfo pluginInfo)
     {
+        _pluginInfo = pluginInfo;
         IsClipboardHistoryEnabled = Clipboard.IsHistoryEnabled();
         Clipboard.HistoryEnabledChanged += Clipboard_HistoryEnabledChanged;
     }
+
+    public SvgImageSource PluginIconUri => new SvgImageSource(new Uri(System.IO.Path.Combine(_pluginInfo.GetPluginContentDirectory(), "Assets", "clipboard.svg")));
 
     /// <summary>
     /// Gets or sets whether Windows clipboard history is currently enabled.

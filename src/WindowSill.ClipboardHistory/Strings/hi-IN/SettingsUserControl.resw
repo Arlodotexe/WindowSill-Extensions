@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -137,5 +137,11 @@
   </data>
   <data name="OpenWindowsClipboardHistorySettings.HeaderProperty" xml:space="preserve">
     <value>विंडोज क्लिपबोर्ड इतिहास सेटिंग्स खोलें</value>
+  </data>
+  <data name="CompactMode.HeaderProperty" xml:space="preserve">
+    <value>कॉम्पैक्ट मोड</value>
+  </data>
+  <data name="CompactMode.DescriptionProperty" xml:space="preserve">
+    <value>बार में अलग-अलग आइटम के बजाय सभी क्लिपबोर्ड आइटम को एक पॉपअप में प्रदर्शित करें</value>
   </data>
 </root>

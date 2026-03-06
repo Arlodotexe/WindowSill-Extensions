@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -137,5 +137,11 @@
   </data>
   <data name="OpenWindowsClipboardHistorySettings.HeaderProperty" xml:space="preserve">
     <value>開啟 Windows 剪貼簿歷史記錄設定</value>
+  </data>
+  <data name="CompactMode.HeaderProperty" xml:space="preserve">
+    <value>精簡模式</value>
+  </data>
+  <data name="CompactMode.DescriptionProperty" xml:space="preserve">
+    <value>在單一彈出視窗中顯示所有剪貼簿項目，而不是在列中顯示個別項目</value>
   </data>
 </root>

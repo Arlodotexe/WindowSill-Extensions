@@ -12,20 +12,47 @@ namespace WindowSill.ClipboardHistory.Factories;
 /// </summary>
 internal sealed class ClipboardItemViewFactory
 {
+    private readonly IPluginInfo _pluginInfo;
     private readonly ISettingsProvider _settingsProvider;
     private readonly IProcessInteractionService _processInteractionService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ClipboardItemViewFactory"/> class.
     /// </summary>
+    /// <param name="pluginInfo">The plugin information.</param>
     /// <param name="settingsProvider">The settings provider for extension settings.</param>
     /// <param name="processInteractionService">The service for interacting with external processes.</param>
     internal ClipboardItemViewFactory(
+        IPluginInfo pluginInfo,
         ISettingsProvider settingsProvider,
         IProcessInteractionService processInteractionService)
     {
+        _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
         _processInteractionService = processInteractionService;
+    }
+
+    /// <summary>
+    /// Creates a ViewModel for the given clipboard item data without creating a view.
+    /// Used by compact mode to populate the popup list.
+    /// </summary>
+    /// <param name="itemData">The clipboard item data including the detected data type.</param>
+    /// <returns>The ViewModel for the clipboard item.</returns>
+    internal ClipboardHistoryItemViewModelBase CreateViewModel(ClipboardItemData itemData)
+    {
+        return itemData.DataType switch
+        {
+            DetectedClipboardDataType.Text => new TextItemViewModel(_settingsProvider, _processInteractionService, itemData.Item),
+            DetectedClipboardDataType.Html => new HtmlItemViewModel(_processInteractionService, itemData.Item),
+            DetectedClipboardDataType.Rtf => new RtfItemViewModel(_processInteractionService, itemData.Item),
+            DetectedClipboardDataType.Image => new ImageItemViewModel(_processInteractionService, itemData.Item),
+            DetectedClipboardDataType.Uri => new UriItemViewModel(_processInteractionService, itemData.Item),
+            DetectedClipboardDataType.ApplicationLink => new ApplicationLinkItemViewModel(_processInteractionService, itemData.Item),
+            DetectedClipboardDataType.Color => new ColorItemViewModel(_processInteractionService, itemData.Item),
+            DetectedClipboardDataType.UserActivity => new UserActivityItemViewModel(_processInteractionService, itemData.Item),
+            DetectedClipboardDataType.File => new FileItemViewModel(_processInteractionService, itemData.Item),
+            _ => new UnknownItemViewModel(_processInteractionService, itemData.Item),
+        };
     }
 
     /// <summary>
@@ -54,9 +81,9 @@ internal sealed class ClipboardItemViewFactory
     /// Creates the placeholder view shown when the clipboard history is empty or disabled.
     /// </summary>
     /// <returns>A <see cref="SillView"/> containing the empty/disabled placeholder.</returns>
-    internal static SillView CreatePlaceholderView()
+    internal SillView CreatePlaceholderView()
     {
-        return new SillView { Content = new EmptyOrDisabledItemView() };
+        return new SillView { Content = new EmptyOrDisabledItemView(_pluginInfo) };
     }
 
     private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateTextView(ClipboardHistoryItem item)

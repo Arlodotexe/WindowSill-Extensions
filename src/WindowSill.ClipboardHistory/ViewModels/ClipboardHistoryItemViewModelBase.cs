@@ -7,7 +7,7 @@ using WindowSill.API;
 
 namespace WindowSill.ClipboardHistory.ViewModels;
 
-internal abstract partial class ClipboardHistoryItemViewModelBase
+public abstract partial class ClipboardHistoryItemViewModelBase
     : ObservableObject,
     IEquatable<ClipboardHistoryItemViewModelBase>,
     IEquatable<ClipboardHistoryItem>
@@ -56,6 +56,8 @@ internal abstract partial class ClipboardHistoryItemViewModelBase
         await ThreadHelper.RunOnUIThreadAsync(async () =>
         {
             Clipboard.SetHistoryItemAsContent(_item);
+
+            await Task.Delay(200);
 
             await _processInteractionService.SimulateKeysOnLastActiveWindow(
                 VirtualKey.LeftControl,

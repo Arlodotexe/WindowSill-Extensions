@@ -25,10 +25,6 @@
             <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
             <converters1:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
-            <converters1:CollectionVisibilityConverter
-                x:Key="EmptyCollectionToVisibeConverter"
-                EmptyValue="Visible"
-                NotEmptyValue="Collapsed" />
         </ResourceDictionary>
     </api:WindowFrameworkElement.Resources>
 
@@ -40,8 +36,8 @@
 
         <TitleBar
             x:Name="TitleBar"
-            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Title"
             Grid.Row="0"
+            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Title"
             IsBackButtonVisible="False"
             IsPaneToggleButtonVisible="False"
             Subtitle="{x:Bind ViewModel.SourceTitle, Mode=OneWay}" />
@@ -65,8 +61,8 @@
                     <StackPanel Orientation="Vertical" Spacing="8">
                         <TextBlock
                             Margin="0,0,0,4"
-                            Style="{ThemeResource SubtitleTextBlockStyle}"
-                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Search" />
+                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Search"
+                            Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <!--<ui:AdvancedTextBox AcceptsReturn="True" Header="Find">
                             <ui:AdvancedTextBox.Content>
                                 <StackPanel Orientation="Horizontal">
@@ -78,13 +74,13 @@
 
                         <TextBox
                             MaxHeight="98"
-                            AcceptsReturn="True"
                             api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Find"
+                            AcceptsReturn="True"
                             Text="{x:Bind ViewModel.FindText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBox
                             MaxHeight="98"
-                            AcceptsReturn="True"
                             api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Replace"
+                            AcceptsReturn="True"
                             Text="{x:Bind ViewModel.ReplaceText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 
@@ -140,9 +136,9 @@
                                     <TextBlock
                                         Grid.Column="0"
                                         VerticalAlignment="Center"
+                                        api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Loose"
                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Loose" />
+                                        Style="{ThemeResource CaptionTextBlockStyle}" />
                                     <Slider
                                         Grid.Column="1"
                                         IsEnabled="{x:Bind ViewModel.SearchMode, Mode=OneWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='MeaningSimilarity'}"
@@ -152,9 +148,9 @@
                                     <TextBlock
                                         Grid.Column="2"
                                         VerticalAlignment="Center"
+                                        api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Strict"
                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Strict" />
+                                        Style="{ThemeResource CaptionTextBlockStyle}" />
                                 </Grid>
                             </StackPanel>
                         </StackPanel>
@@ -177,8 +173,8 @@
                     <TextBlock
                         Grid.Row="0"
                         Margin="0,0,0,4"
-                        Style="{ThemeResource SubtitleTextBlockStyle}"
-                        api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Results" />
+                        api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Results"
+                        Style="{ThemeResource SubtitleTextBlockStyle}" />
                     <TextBlock
                         Grid.Row="1"
                         HorizontalAlignment="Stretch"
@@ -193,8 +189,8 @@
                         VerticalSpacing="4">
                         <Button
                             Height="32"
-                            Command="{x:Bind ViewModel.SelectPreviousResultCommand}"
-                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/PreviousResult">
+                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/PreviousResult"
+                            Command="{x:Bind ViewModel.SelectPreviousResultCommand}">
                             <FontIcon
                                 VerticalAlignment="Center"
                                 FontFamily="{StaticResource SegoeFluentIcons}"
@@ -203,8 +199,8 @@
                         </Button>
                         <Button
                             Height="32"
-                            Command="{x:Bind ViewModel.SelectNextResultCommand}"
-                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/NextResult">
+                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/NextResult"
+                            Command="{x:Bind ViewModel.SelectNextResultCommand}">
                             <FontIcon
                                 VerticalAlignment="Center"
                                 FontFamily="{StaticResource SegoeFluentIcons}"
@@ -213,8 +209,8 @@
                         </Button>
                         <Button
                             Height="32"
-                            Command="{x:Bind ViewModel.ReplaceAllCommand}"
-                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/ReplaceAll" />
+                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/ReplaceAll"
+                            Command="{x:Bind ViewModel.ReplaceAllCommand}" />
                     </controls:WrapPanel>
                     <ListView
                         x:Name="ResultsListView"
@@ -246,9 +242,9 @@
                                         Visibility="Collapsed">
                                         <Button
                                             VerticalAlignment="Center"
+                                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/ReplaceResult"
                                             Command="{Binding Tag.ReplaceResultCommand, ElementName=ResultsListView}"
-                                            CommandParameter="{x:Bind}"
-                                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/ReplaceResult">
+                                            CommandParameter="{x:Bind}">
                                             <FontIcon
                                                 VerticalAlignment="Center"
                                                 FontFamily="{StaticResource SegoeFluentIcons}"
@@ -257,9 +253,9 @@
                                         </Button>
                                         <Button
                                             VerticalAlignment="Center"
+                                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/DismissResult"
                                             Command="{Binding Tag.DismissResultCommand, ElementName=ResultsListView}"
-                                            CommandParameter="{x:Bind}"
-                                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/DismissResult">
+                                            CommandParameter="{x:Bind}">
                                             <FontIcon
                                                 VerticalAlignment="Center"
                                                 FontFamily="{StaticResource SegoeFluentIcons}"
@@ -286,9 +282,9 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
+                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Searching"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource CaptionTextBlockStyle}"
-                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Searching" />
+                            Style="{ThemeResource CaptionTextBlockStyle}" />
                     </StackPanel>
                     <StackPanel
                         Grid.Row="3"
@@ -299,9 +295,9 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
+                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/NoResultFound"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{ThemeResource CaptionTextBlockStyle}"
-                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/NoResultFound" />
+                            Style="{ThemeResource CaptionTextBlockStyle}" />
                     </StackPanel>
                 </Grid>
             </Border>
@@ -319,8 +315,8 @@
                     </Grid.RowDefinitions>
                     <TextBlock
                         Margin="0,0,0,4"
-                        Style="{ThemeResource SubtitleTextBlockStyle}"
-                        api:Uids.Uid="/WindowSill.TextFinder/FindWindow/SourceText" />
+                        api:Uids.Uid="/WindowSill.TextFinder/FindWindow/SourceText"
+                        Style="{ThemeResource SubtitleTextBlockStyle}" />
                     <ui:FindResultRichEditBox
                         Grid.Row="1"
                         AcceptsReturn="True"

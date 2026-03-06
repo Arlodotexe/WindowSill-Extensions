@@ -20,8 +20,14 @@
             api:Uids.Uid="/WindowSill.ClipboardHistory/SettingsUserControl/General"
             Style="{ThemeResource BodyStrongTextBlockStyle}" />
 
-        <controls:SettingsCard
-            api:Uids.Uid="/WindowSill.ClipboardHistory/SettingsUserControl/MaxItemNumber">
+        <controls:SettingsCard api:Uids.Uid="/WindowSill.ClipboardHistory/SettingsUserControl/CompactMode">
+            <controls:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE14C;" />
+            </controls:SettingsCard.HeaderIcon>
+            <ToggleSwitch IsOn="{x:Bind ViewModel.CompactMode, Mode=TwoWay}" />
+        </controls:SettingsCard>
+
+        <controls:SettingsCard api:Uids.Uid="/WindowSill.ClipboardHistory/SettingsUserControl/MaxItemNumber">
             <controls:SettingsCard.HeaderIcon>
                 <FontIcon FontFamily="Segoe UI" Glyph="&#x0023;" />
             </controls:SettingsCard.HeaderIcon>
@@ -33,8 +39,7 @@
                 Value="{x:Bind ViewModel.MaximumHistoryCount, Mode=TwoWay}" />
         </controls:SettingsCard>
 
-        <controls:SettingsCard
-            api:Uids.Uid="/WindowSill.ClipboardHistory/SettingsUserControl/HidePasswords">
+        <controls:SettingsCard api:Uids.Uid="/WindowSill.ClipboardHistory/SettingsUserControl/HidePasswords">
             <controls:SettingsCard.HeaderIcon>
                 <FontIcon Glyph="&#xE9A9;" />
             </controls:SettingsCard.HeaderIcon>
@@ -42,8 +47,8 @@
         </controls:SettingsCard>
 
         <controls:SettingsCard
-            Click="OpenWindowsClipboardHistorySettingsCard_Click"
             api:Uids.Uid="/WindowSill.ClipboardHistory/SettingsUserControl/OpenWindowsClipboardHistorySettings"
+            Click="OpenWindowsClipboardHistorySettingsCard_Click"
             IsClickEnabled="True"
             Visibility="{x:Bind ViewModel.IsClipboardHistoryEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
             <controls:SettingsCard.HeaderIcon>
@@ -55,8 +60,8 @@
         </controls:SettingsCard>
 
         <controls:SettingsCard
-            Click="OpenWindowsClipboardHistorySettingsCard_Click"
             api:Uids.Uid="/WindowSill.ClipboardHistory/SettingsUserControl/EnableClipboardHistory"
+            Click="OpenWindowsClipboardHistorySettingsCard_Click"
             IsClickEnabled="True"
             Visibility="{x:Bind ViewModel.IsClipboardHistoryDisabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
             <controls:SettingsCard.HeaderIcon>
