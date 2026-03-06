@@ -1,43 +1,62 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+
 using WindowSill.API;
 using WindowSill.PerfCounter.Services;
 using WindowSill.PerfCounter.Settings;
 
-namespace WindowSill.PerfCounter.UI;
+namespace WindowSill.PerfCounter.ViewModels;
 
+/// <summary>
+/// ViewModel for the performance counter main view.
+/// Exposes CPU, memory, and GPU usage data with display mode switching.
+/// </summary>
 public partial class PerformanceCounterViewModel : ObservableObject
 {
     private readonly IPerformanceMonitorService _performanceMonitorService;
     private readonly ISettingsProvider _settingsProvider;
 
     [ObservableProperty]
-    private double cpuUsage;
+    public partial double CpuUsage { get; set; }
 
     [ObservableProperty]
-    private double memoryUsage;
+    public partial double MemoryUsage { get; set; }
 
     [ObservableProperty]
-    private double? gpuUsage;
+    public partial double? GpuUsage { get; set; }
 
     [ObservableProperty]
-    private long memoryUsedMB;
+    public partial long MemoryUsedMB { get; set; }
 
     [ObservableProperty]
-    private long memoryTotalMB;
+    public partial long MemoryTotalMB { get; set; }
 
     [ObservableProperty]
-    private bool isPercentageMode = true;
+    public partial bool IsPercentageMode { get; set; }
 
     [ObservableProperty]
-    private double animationSpeed = 1.0;
+    public partial double AnimationSpeed { get; set; }
 
+    /// <summary>
+    /// Formatted CPU usage text.
+    /// </summary>
     public string CpuText => $"{CpuUsage:F0}%";
 
+    /// <summary>
+    /// Formatted memory usage text.
+    /// </summary>
     public string MemoryText => $"{MemoryUsage:F0}%";
 
+    /// <summary>
+    /// Formatted GPU usage text.
+    /// </summary>
     public string GpuText => $"{GpuUsage:F0}%";
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PerformanceCounterViewModel"/> class.
+    /// </summary>
+    /// <param name="performanceMonitorService">The performance data provider.</param>
+    /// <param name="settingsProvider">The settings provider for display preferences.</param>
     public PerformanceCounterViewModel(
         IPerformanceMonitorService performanceMonitorService,
         ISettingsProvider settingsProvider)
@@ -45,29 +64,22 @@ public partial class PerformanceCounterViewModel : ObservableObject
         _performanceMonitorService = performanceMonitorService;
         _settingsProvider = settingsProvider;
 
+        IsPercentageMode = true;
+        AnimationSpeed = 1.0;
+
         _performanceMonitorService.PerformanceDataUpdated += OnPerformanceDataUpdated;
         _settingsProvider.SettingChanged += OnSettingChanged;
 
         UpdateDisplayMode();
     }
 
+    /// <summary>
+    /// Opens the Windows Task Manager.
+    /// </summary>
     [RelayCommand]
     private void OpenTaskManager()
     {
         TaskManagerLauncher.OpenTaskManager(_settingsProvider);
-    }
-
-    public static (PerformanceCounterViewModel viewModel, SillView view) CreateView(
-        IPerformanceMonitorService performanceMonitorService,
-        ISettingsProvider settingsProvider,
-        IPluginInfo pluginInfo)
-    {
-        var viewModel = new PerformanceCounterViewModel(performanceMonitorService, settingsProvider);
-
-        var view = new SillView();
-        view.Content = new PerformanceCounterView(view, pluginInfo, viewModel, settingsProvider);
-
-        return (viewModel, view);
     }
 
     private void OnPerformanceDataUpdated(object? sender, PerformanceDataEventArgs e)
@@ -80,7 +92,6 @@ public partial class PerformanceCounterViewModel : ObservableObject
 
             UpdateAnimationSpeed();
 
-            // Notify computed properties changed
             OnPropertyChanged(nameof(CpuText));
             OnPropertyChanged(nameof(MemoryText));
             OnPropertyChanged(nameof(GpuText));
