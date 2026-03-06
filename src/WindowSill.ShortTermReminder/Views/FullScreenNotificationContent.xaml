@@ -6,6 +6,7 @@
     xmlns:api="using:WindowSill.API"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="using:WindowSill.ShortTermReminder.Views"
     mc:Ignorable="d">
 
     <Grid>
@@ -54,14 +55,16 @@
                         CharacterSpacing="200"
                         api:Uids.Uid="/WindowSill.ShortTermReminder/FullScreenNotificationWindow/Title" />
 
-                    <TextBlock
-                        Style="{ThemeResource TitleLargeTextBlockStyle}"
+                    <RichTextBlock
+                        FontSize="40"
+                        FontWeight="SemiBold"
                         MaxLines="5"
                         TextWrapping="WrapWholeWords"
                         TextTrimming="WordEllipsis"
-                        HorizontalTextAlignment="Center"
                         HorizontalAlignment="Stretch"
-                        Text="{x:Bind ViewModel.ReminderTitle, Mode=OneTime}" />
+                        TextAlignment="Center"
+                        views:RichTextBlockLinkBehavior.LinkedText="{x:Bind ViewModel.ReminderTitle, Mode=OneTime}"
+                        views:RichTextBlockLinkBehavior.LinkClickedCommand="{x:Bind ViewModel.OpenLinkAndDismissCommand}" />
                 </StackPanel>
 
                 <!-- Actions footer -->

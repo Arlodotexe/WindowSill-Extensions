@@ -1,6 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
+using Windows.System;
+
 using WindowSill.ShortTermReminder.Core;
 
 namespace WindowSill.ShortTermReminder.ViewModels;
@@ -34,6 +36,17 @@ internal sealed partial class FullScreenNotificationViewModel : ObservableObject
     /// </summary>
     [ObservableProperty]
     internal partial string ReminderTitle { get; set; }
+
+    /// <summary>
+    /// Opens the given URI in the default browser, then dismisses the reminder and closes the window.
+    /// </summary>
+    /// <param name="uri">The URI to open.</param>
+    [RelayCommand]
+    private async Task OpenLinkAndDismissAsync(Uri uri)
+    {
+        await Launcher.LaunchUriAsync(uri);
+        Dismiss();
+    }
 
     /// <summary>
     /// Dismisses (deletes) the reminder and closes the window.

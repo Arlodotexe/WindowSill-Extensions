@@ -6,6 +6,7 @@
     xmlns:api="using:WindowSill.API"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="using:WindowSill.ShortTermReminder.Views"
     mc:Ignorable="d"
     Width="350"
     Opening="OnOpening">
@@ -22,7 +23,7 @@
             Padding="24"
             Spacing="12">
 
-            <TextBlock
+            <RichTextBlock
                 FontSize="20"
                 FontWeight="SemiBold"
                 HorizontalAlignment="Left"
@@ -30,7 +31,7 @@
                 MaxLines="5"
                 TextWrapping="Wrap"
                 TextTrimming="WordEllipsis"
-                Text="{x:Bind ViewModel.Reminder.Title, Mode=OneTime}" />
+                views:RichTextBlockLinkBehavior.LinkedText="{x:Bind ViewModel.Reminder.Title, Mode=OneTime}" />
 
             <TextBlock
                 Foreground="{ThemeResource TextFillColorTertiaryBrush}"

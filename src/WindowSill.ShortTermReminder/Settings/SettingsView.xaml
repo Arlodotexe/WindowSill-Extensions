@@ -12,19 +12,16 @@
     <StackPanel Spacing="2">
 
         <TextBlock
-            Style="{ThemeResource BodyStrongTextBlockStyle}"
             Margin="0,0,0,8"
-            api:Uids.Uid="/WindowSill.ShortTermReminder/Settings/General" />
+            api:Uids.Uid="/WindowSill.ShortTermReminder/Settings/General"
+            Style="{ThemeResource BodyStrongTextBlockStyle}" />
 
-        <controls:SettingsCard
-            api:Uids.Uid="/WindowSill.ShortTermReminder/Settings/NotificationMode">
+        <controls:SettingsCard api:Uids.Uid="/WindowSill.ShortTermReminder/Settings/NotificationMode">
             <controls:SettingsCard.HeaderIcon>
                 <FontIcon Glyph="&#xE7E7;" />
             </controls:SettingsCard.HeaderIcon>
 
-            <ToggleSwitch
-                api:Uids.Uid="/WindowSill.ShortTermReminder/Settings/NotificationModeToggle"
-                IsOn="{x:Bind ViewModel.UseFullScreenNotification, Mode=TwoWay}" />
+            <ToggleSwitch api:Uids.Uid="/WindowSill.ShortTermReminder/Settings/NotificationModeToggle" IsOn="{x:Bind ViewModel.UseFullScreenNotification, Mode=TwoWay}" />
         </controls:SettingsCard>
 
     </StackPanel>

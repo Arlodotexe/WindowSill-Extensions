@@ -5,18 +5,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="using:WindowSill.ShortTermReminder.Views"
     mc:Ignorable="d">
 
     <StackPanel
         Spacing="8"
         Padding="8">
 
-        <TextBlock
-            Style="{ThemeResource BodyTextBlockStyle}"
+        <RichTextBlock
+            FontSize="{ThemeResource BodyTextBlockFontSize}"
             TextTrimming="CharacterEllipsis"
             TextWrapping="NoWrap"
             VerticalAlignment="Center"
-            Text="{x:Bind ViewModel.ReminderTitle, Mode=OneWay}" />
+            views:RichTextBlockLinkBehavior.LinkedText="{x:Bind ViewModel.ReminderTitle, Mode=OneWay}" />
 
         <TextBlock
             Style="{ThemeResource CaptionTextBlockStyle}"
