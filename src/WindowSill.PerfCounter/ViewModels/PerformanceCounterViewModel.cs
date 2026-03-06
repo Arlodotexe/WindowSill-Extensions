@@ -26,6 +26,12 @@ public partial class PerformanceCounterViewModel : ObservableObject
     public partial double? GpuUsage { get; set; }
 
     [ObservableProperty]
+    public partial double? CpuTemperature { get; set; }
+
+    [ObservableProperty]
+    public partial double? GpuTemperature { get; set; }
+
+    [ObservableProperty]
     public partial long MemoryUsedMB { get; set; }
 
     [ObservableProperty]
@@ -33,6 +39,9 @@ public partial class PerformanceCounterViewModel : ObservableObject
 
     [ObservableProperty]
     public partial bool IsPercentageMode { get; set; }
+
+    [ObservableProperty]
+    public partial bool ShowTemperature { get; set; }
 
     [ObservableProperty]
     public partial double AnimationSpeed { get; set; }
@@ -53,6 +62,16 @@ public partial class PerformanceCounterViewModel : ObservableObject
     public string GpuText => $"{GpuUsage:F0}%";
 
     /// <summary>
+    /// Formatted CPU temperature text.
+    /// </summary>
+    public string CpuTemperatureText => CpuTemperature.HasValue ? $"{CpuTemperature:F0}°C" : "";
+
+    /// <summary>
+    /// Formatted GPU temperature text.
+    /// </summary>
+    public string GpuTemperatureText => GpuTemperature.HasValue ? $"{GpuTemperature:F0}°C" : "";
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="PerformanceCounterViewModel"/> class.
     /// </summary>
     /// <param name="performanceMonitorService">The performance data provider.</param>
@@ -65,12 +84,14 @@ public partial class PerformanceCounterViewModel : ObservableObject
         _settingsProvider = settingsProvider;
 
         IsPercentageMode = true;
+        ShowTemperature = true;
         AnimationSpeed = 1.0;
 
         _performanceMonitorService.PerformanceDataUpdated += OnPerformanceDataUpdated;
         _settingsProvider.SettingChanged += OnSettingChanged;
 
         UpdateDisplayMode();
+        UpdateShowTemperature();
     }
 
     /// <summary>
@@ -89,12 +110,16 @@ public partial class PerformanceCounterViewModel : ObservableObject
             CpuUsage = e.Data.CpuUsage;
             MemoryUsage = e.Data.MemoryUsage;
             GpuUsage = e.Data.GpuUsage;
+            CpuTemperature = e.Data.CpuTemperature;
+            GpuTemperature = e.Data.GpuTemperature;
 
             UpdateAnimationSpeed();
 
             OnPropertyChanged(nameof(CpuText));
             OnPropertyChanged(nameof(MemoryText));
             OnPropertyChanged(nameof(GpuText));
+            OnPropertyChanged(nameof(CpuTemperatureText));
+            OnPropertyChanged(nameof(GpuTemperatureText));
         });
     }
 
@@ -106,12 +131,21 @@ public partial class PerformanceCounterViewModel : ObservableObject
             UpdateDisplayMode();
             UpdateAnimationSpeed();
         }
+        else if (args.SettingName == Settings.Settings.ShowTemperature.Name)
+        {
+            UpdateShowTemperature();
+        }
     }
 
     private void UpdateDisplayMode()
     {
         PerformanceDisplayMode displayMode = _settingsProvider.GetSetting(Settings.Settings.DisplayMode);
         IsPercentageMode = displayMode == PerformanceDisplayMode.Percentage;
+    }
+
+    private void UpdateShowTemperature()
+    {
+        ShowTemperature = _settingsProvider.GetSetting(Settings.Settings.ShowTemperature);
     }
 
     private void UpdateAnimationSpeed()

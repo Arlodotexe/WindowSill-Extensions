@@ -8,17 +8,17 @@
     <Button
         x:Name="MainButton"
         Padding="4"
-        Style="{StaticResource SillButtonStyle}"
-        Command="{x:Bind ViewModel.OpenTaskManagerCommand}">
+        Command="{x:Bind ViewModel.OpenTaskManagerCommand}"
+        Style="{StaticResource SillButtonStyle}">
         <Grid>
-            <!-- Percentage mode: CPU / Memory / GPU rows -->
-            <!-- Visibility managed in code-behind based on IsPercentageMode -->
+            <!--  Percentage mode: CPU / Memory / GPU rows  -->
+            <!--  Visibility managed in code-behind based on IsPercentageMode  -->
             <api:SillOrientedStackPanel
                 x:Name="PercentagePanel"
                 VerticalAlignment="Center"
                 Spacing="8">
 
-                <!-- CPU -->
+                <!--  CPU  -->
                 <StackPanel
                     VerticalAlignment="Center"
                     Orientation="Horizontal"
@@ -31,9 +31,15 @@
                         MinWidth="32"
                         VerticalAlignment="Center"
                         Text="{x:Bind ViewModel.CpuText, Mode=OneWay}" />
+                    <TextBlock
+                        x:Name="CpuTemperatureText"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                        Text="{x:Bind ViewModel.CpuTemperatureText, Mode=OneWay}"
+                        Visibility="Collapsed" />
                 </StackPanel>
 
-                <!-- Memory -->
+                <!--  Memory  -->
                 <StackPanel
                     VerticalAlignment="Center"
                     Orientation="Horizontal"
@@ -48,7 +54,7 @@
                         Text="{x:Bind ViewModel.MemoryText, Mode=OneWay}" />
                 </StackPanel>
 
-                <!-- GPU (visible only when GPU data is available) -->
+                <!--  GPU (visible only when GPU data is available)  -->
                 <StackPanel
                     x:Name="GpuPanel"
                     VerticalAlignment="Center"
@@ -63,16 +69,22 @@
                         MinWidth="32"
                         VerticalAlignment="Center"
                         Text="{x:Bind ViewModel.GpuText, Mode=OneWay}" />
+                    <TextBlock
+                        x:Name="GpuTemperatureText"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                        Text="{x:Bind ViewModel.GpuTemperatureText, Mode=OneWay}"
+                        Visibility="Collapsed" />
                 </StackPanel>
             </api:SillOrientedStackPanel>
 
-            <!-- Running Man animation mode (starts collapsed, toggled in code-behind) -->
+            <!--  Running Man animation mode (starts collapsed, toggled in code-behind)  -->
             <AnimatedVisualPlayer
                 x:Name="AnimationPlayer"
                 Width="24"
-                Visibility="Collapsed"
                 AutoPlay="True"
-                PlaybackRate="{x:Bind ViewModel.AnimationSpeed, Mode=OneWay}" />
+                PlaybackRate="{x:Bind ViewModel.AnimationSpeed, Mode=OneWay}"
+                Visibility="Collapsed" />
         </Grid>
     </Button>
 

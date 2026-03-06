@@ -1,5 +1,3 @@
-using CommunityToolkit.WinUI.Controls;
-
 using WindowSill.API;
 using WindowSill.PerfCounter.ViewModels;
 
@@ -43,6 +41,9 @@ internal sealed partial class SettingsView : UserControl
 
         EnableTaskManagerCard.Header = "/WindowSill.PerfCounter/Settings/EnableTaskManagerLaunch".GetLocalizedString();
         EnableTaskManagerCard.Description = "/WindowSill.PerfCounter/Settings/EnableTaskManagerLaunchDescription".GetLocalizedString();
+
+        ShowTemperatureCard.Header = "/WindowSill.PerfCounter/Settings/ShowTemperature".GetLocalizedString();
+        ShowTemperatureCard.Description = "/WindowSill.PerfCounter/Settings/ShowTemperatureDescription".GetLocalizedString();
 
         OpenTaskManagerCard.Header = "/WindowSill.PerfCounter/Settings/OpenTaskManager".GetLocalizedString();
         OpenTaskManagerCard.Description = "/WindowSill.PerfCounter/Settings/OpenTaskManagerDescription".GetLocalizedString();

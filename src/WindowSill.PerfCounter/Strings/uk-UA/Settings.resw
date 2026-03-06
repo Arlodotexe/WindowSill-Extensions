@@ -150,4 +150,10 @@
   <data name="OpenTaskManagerDescription" xml:space="preserve">
     <value>Клацніть, щоб відкрити диспетчер задач Windows для детальної інформації про систему</value>
   </data>
+  <data name="ShowTemperature" xml:space="preserve">
+    <value>Показувати температуру</value>
+  </data>
+  <data name="ShowTemperatureDescription" xml:space="preserve">
+    <value>Відображати температуру процесора та відеокарти поряд із відсотками використання</value>
+  </data>
 </root>

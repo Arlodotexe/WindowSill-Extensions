@@ -42,6 +42,7 @@ public sealed partial class PerformanceCounterView : UserControl
 
         LoadIcons();
         UpdateAnimationVisibility();
+        UpdateTemperatureVisibility();
         UpdateOrientationLayout();
         UpdateThemeAnimation();
 
@@ -68,12 +69,27 @@ public sealed partial class PerformanceCounterView : UserControl
         {
             UpdateAnimationVisibility();
         }
+        else if (e.PropertyName is nameof(PerformanceCounterViewModel.CpuTemperature)
+            or nameof(PerformanceCounterViewModel.GpuTemperature)
+            or nameof(PerformanceCounterViewModel.ShowTemperature))
+        {
+            UpdateTemperatureVisibility();
+        }
     }
 
     private void UpdateAnimationVisibility()
     {
         AnimationPlayer.Visibility = ViewModel.IsPercentageMode ? Visibility.Collapsed : Visibility.Visible;
         PercentagePanel.Visibility = ViewModel.IsPercentageMode ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private void UpdateTemperatureVisibility()
+    {
+        bool showCpuTemp = ViewModel.ShowTemperature && ViewModel.CpuTemperature.HasValue;
+        bool showGpuTemp = ViewModel.ShowTemperature && ViewModel.GpuTemperature.HasValue;
+
+        CpuTemperatureText.Visibility = showCpuTemp ? Visibility.Visible : Visibility.Collapsed;
+        GpuTemperatureText.Visibility = showGpuTemp ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private void OnIsSillOrientationOrSizeChanged(object? sender, EventArgs e)

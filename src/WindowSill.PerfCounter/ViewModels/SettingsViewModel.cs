@@ -72,6 +72,15 @@ internal sealed partial class SettingsViewModel : ObservableObject
     }
 
     /// <summary>
+    /// Gets or sets whether to display CPU and GPU temperature.
+    /// </summary>
+    public bool ShowTemperature
+    {
+        get => _settingsProvider.GetSetting(Settings.Settings.ShowTemperature);
+        set => _settingsProvider.SetSetting(Settings.Settings.ShowTemperature, value);
+    }
+
+    /// <summary>
     /// Gets whether the animated running man mode is active.
     /// </summary>
     public bool IsAnimatedGifMode => DisplayMode == PerformanceDisplayMode.RunningMan;

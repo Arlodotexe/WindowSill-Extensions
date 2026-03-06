@@ -45,6 +45,16 @@
                 IsOn="{x:Bind ViewModel.EnableTaskManagerLaunch, Mode=TwoWay}" />
         </ctk:SettingsCard>
 
+        <!-- Show Temperature -->
+        <ctk:SettingsCard
+            x:Name="ShowTemperatureCard">
+            <ctk:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE9CA;" />
+            </ctk:SettingsCard.HeaderIcon>
+            <ToggleSwitch
+                IsOn="{x:Bind ViewModel.ShowTemperature, Mode=TwoWay}" />
+        </ctk:SettingsCard>
+
         <!-- Open Task Manager -->
         <ctk:SettingsCard
             x:Name="OpenTaskManagerCard"
