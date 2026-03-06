@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,21 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="General" xml:space="preserve">
+  <data name="General.TextProperty" xml:space="preserve">
     <value>一般</value>
   </data>
-  <data name="NotificationMode.Description" xml:space="preserve">
+  <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
     <value>選擇提醒出現的方式。
 • Toast 通知提供一個小的彈出式通知，融入您的工作流程且會停留在 Windows 行動中心。
 • 全螢幕通知會占據整個顯示屏，確保難以被忽略——即使 Windows 處於專注模式時也一樣。適合需要更強視覺提示以保持專注的使用者。</value>
   </data>
-  <data name="NotificationMode.Header" xml:space="preserve">
+  <data name="NotificationMode.HeaderProperty" xml:space="preserve">
     <value>通知模式</value>
   </data>
-  <data name="NotificationModeToggle.OffContent" xml:space="preserve">
+  <data name="NotificationModeToggle.OffContentProperty" xml:space="preserve">
     <value>Toast 通知</value>
   </data>
-  <data name="NotificationModeToggle.OnContent" xml:space="preserve">
+  <data name="NotificationModeToggle.OnContentProperty" xml:space="preserve">
     <value>全螢幕通知</value>
   </data>
 </root>

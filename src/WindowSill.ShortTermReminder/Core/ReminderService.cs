@@ -1,3 +1,5 @@
+using System.ComponentModel.Composition;
+
 using CommunityToolkit.Diagnostics;
 
 using Microsoft.Windows.AppNotifications;
@@ -10,17 +12,20 @@ using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 
 using WindowSill.API;
-using WindowSill.ShortTermReminder.UI;
+using WindowSill.ShortTermReminder.Views;
 
-namespace WindowSill.ShortTermReminder;
+namespace WindowSill.ShortTermReminder.Core;
 
-internal sealed class ShortTermReminderService
+/// <summary>
+/// Singleton service that manages reminder lifecycle, persistence, and notifications.
+/// </summary>
+[Export(typeof(IReminderService))]
+internal sealed class ReminderService : IReminderService
 {
-    internal static ShortTermReminderService Instance { get; } = new ShortTermReminderService();
-
     private ISettingsProvider? _settingsProvider;
 
-    private ShortTermReminderService()
+    [ImportingConstructor]
+    internal ReminderService()
     {
         ThreadHelper.ThrowIfNotOnUIThread();
         AppNotificationManager.Default.NotificationInvoked += OnToastNotificationInvoked;
@@ -30,12 +35,14 @@ internal sealed class ShortTermReminderService
             new SillListViewPopupItem(
                 '\uF8AA',
                 "/WindowSill.ShortTermReminder/NewReminderSillListViewPopupItem/NewReminderTooltip".GetLocalizedString(),
-                NewReminderPopup.CreateView()));
+                NewReminderPopup.CreateView(this)));
     }
 
-    internal ObservableCollection<SillListViewItem> ViewList { get; } = new();
+    /// <inheritdoc />
+    public ObservableCollection<SillListViewItem> ViewList { get; } = new();
 
-    internal async Task InitializeAsync(ISettingsProvider settingsProvider)
+    /// <inheritdoc />
+    public async Task InitializeAsync(ISettingsProvider settingsProvider)
     {
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
@@ -45,12 +52,13 @@ internal sealed class ShortTermReminderService
             Reminder[] reminders = _settingsProvider.GetSetting(Settings.Settings.Reminders);
             for (int i = 0; i < reminders?.Length; i++)
             {
-                ViewList.Add(ReminderSillListViewPopupItem.CreateView(reminders[i]));
+                ViewList.Add(ReminderListItemContent.CreateViewListItem(reminders[i], this));
             }
         });
     }
 
-    internal void AddNewReminder(string reminderText, TimeSpan originalReminderDuration, DateTime reminderTime)
+    /// <inheritdoc />
+    public void AddNewReminder(string reminderText, TimeSpan originalReminderDuration, DateTime reminderTime)
     {
         ThreadHelper.ThrowIfNotOnUIThread();
         Guard.IsNotNull(_settingsProvider);
@@ -66,7 +74,7 @@ internal sealed class ShortTermReminderService
 
         for (insertIndex = 1; insertIndex < ViewList.Count; insertIndex++)
         {
-            if (ViewList[insertIndex].DataContext is ReminderSillListViewPopupItem reminderItem)
+            if (ViewList[insertIndex].DataContext is ViewModels.ReminderListItemViewModel reminderItem)
             {
                 if (reminderItem.Reminder.ReminderTime > reminderTime)
                 {
@@ -75,47 +83,50 @@ internal sealed class ShortTermReminderService
             }
         }
 
-        ViewList.Insert(insertIndex, ReminderSillListViewPopupItem.CreateView(reminder));
+        ViewList.Insert(insertIndex, ReminderListItemContent.CreateViewListItem(reminder, this));
 
         SaveReminders();
     }
 
-    internal void DeleteReminder(Guid reminderId)
+    /// <inheritdoc />
+    public void DeleteReminder(Guid reminderId)
     {
         ThreadHelper.ThrowIfNotOnUIThread();
         Guard.IsNotNull(_settingsProvider);
 
         SillListViewItem? itemToRemove = ViewList
             .FirstOrDefault(
-                r => r.DataContext is ReminderSillListViewPopupItem reminderSillListViewPopupItem
-                && reminderSillListViewPopupItem.Reminder.Id == reminderId);
+                r => r.DataContext is ViewModels.ReminderListItemViewModel reminderViewModel
+                && reminderViewModel.Reminder.Id == reminderId);
 
         if (itemToRemove is not null)
         {
             ViewList.Remove(itemToRemove);
-            ((ReminderSillListViewPopupItem)itemToRemove.DataContext).Dispose();
+            ((ViewModels.ReminderListItemViewModel)itemToRemove.DataContext).Dispose();
         }
 
         SaveReminders();
     }
 
-    internal void SnoozeReminder(Reminder reminder, TimeSpan snoozeDuration)
+    /// <inheritdoc />
+    public void SnoozeReminder(Reminder reminder, TimeSpan snoozeDuration)
     {
         Guard.IsNotNull(_settingsProvider);
 
         reminder.OriginalReminderDuration = snoozeDuration;
         reminder.ReminderTime = DateTime.Now + snoozeDuration;
 
-        ReminderSillListViewPopupItem? itemToUpdate
+        ViewModels.ReminderListItemViewModel? itemToUpdate
             = ViewList.Select(v => v.DataContext)
-            .OfType<ReminderSillListViewPopupItem>()
+            .OfType<ViewModels.ReminderListItemViewModel>()
             .FirstOrDefault(r => r.Reminder == reminder);
         itemToUpdate?.EnsureTimerRunning();
 
         SaveReminders();
     }
 
-    internal async Task NotifyUserAsync(Reminder reminder)
+    /// <inheritdoc />
+    public async Task NotifyUserAsync(Reminder reminder)
     {
         Guard.IsNotNull(_settingsProvider);
         if (_settingsProvider.GetSetting(Settings.Settings.UseFullScreenNotification))
@@ -141,7 +152,7 @@ internal sealed class ShortTermReminderService
             if (monitors.Count == 0)
             {
                 // Fallback to single window if no monitors detected
-                var fallbackWindow = new FullScreenNotificationWindow(reminder);
+                var fallbackWindow = new FullScreenNotificationWindow(reminder, this);
                 await fallbackWindow.ShowAsync();
             }
             else
@@ -163,7 +174,7 @@ internal sealed class ShortTermReminderService
                 bool isFirstWindow = true;
                 foreach (RECT monitorRect in monitors)
                 {
-                    var window = new FullScreenNotificationWindow(reminder, monitorRect, closeAllWindows, playAudio: isFirstWindow);
+                    var window = new FullScreenNotificationWindow(reminder, this, monitorRect, closeAllWindows, playAudio: isFirstWindow);
                     windows.Add(window);
                     isFirstWindow = false;
                 }
@@ -195,7 +206,7 @@ internal sealed class ShortTermReminderService
         Reminder[] reminders
             = ViewList
             .Select(viewItem => viewItem.DataContext)
-            .OfType<ReminderSillListViewPopupItem>()
+            .OfType<ViewModels.ReminderListItemViewModel>()
             .Select(reminderItem => reminderItem.Reminder)
             .ToArray();
         _settingsProvider.SetSetting(Settings.Settings.Reminders, reminders);
