@@ -1,5 +1,3 @@
-using Microsoft.UI.Xaml.Navigation;
-
 using WindowSill.API;
 using WindowSill.ImageHelper.ViewModels;
 
