@@ -1,31 +1,35 @@
 using CommunityToolkit.Diagnostics;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Windows.ApplicationModel.DataTransfer;
 using WindowSill.API;
 
-namespace WindowSill.ClipboardHistory.UI;
+namespace WindowSill.ClipboardHistory.ViewModels;
 
-internal sealed class TextItemViewModel : ClipboardHistoryItemViewModelBase
+internal sealed partial class TextItemViewModel : ClipboardHistoryItemViewModelBase
 {
     private readonly ILogger _logger;
-    private readonly SillListViewButtonItem _view;
     private readonly ISettingsProvider _settingsProvider;
 
-    private TextItemViewModel(ISettingsProvider settingsProvider, IProcessInteractionService processInteractionService, ClipboardHistoryItem item)
+    /// <summary>
+    /// Gets or sets the truncated display text shown in the list item.
+    /// </summary>
+    [ObservableProperty]
+    public partial string DisplayText { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the full text shown in the preview flyout.
+    /// </summary>
+    [ObservableProperty]
+    public partial string PreviewText { get; set; } = string.Empty;
+
+    internal TextItemViewModel(ISettingsProvider settingsProvider, IProcessInteractionService processInteractionService, ClipboardHistoryItem item)
         : base(processInteractionService, item)
     {
         _logger = this.Log();
         _settingsProvider = settingsProvider;
-        _view = new SillListViewButtonItem(base.PasteCommand);
-        _view.DataContext = this;
 
         InitializeAsync().Forget();
-    }
-
-    internal static (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateView(ISettingsProvider settingsProvider, IProcessInteractionService processInteractionService, ClipboardHistoryItem item)
-    {
-        var viewModel = new TextItemViewModel(settingsProvider, processInteractionService, item);
-        return (viewModel, viewModel._view);
     }
 
     private async Task InitializeAsync()
@@ -61,11 +65,11 @@ internal sealed class TextItemViewModel : ClipboardHistoryItemViewModelBase
                     if (_settingsProvider.GetSetting(Settings.Settings.HidePasswords)
                         && IsPassword(text))
                     {
-                        _view.Content = new string('•', text.Length);
+                        DisplayText = new string('•', text.Length);
                     }
                     else
                     {
-                        _view.Content
+                        DisplayText
                             = text
                             .Substring(0, Math.Min(text.Length, 256))
                             .Trim()
@@ -75,7 +79,7 @@ internal sealed class TextItemViewModel : ClipboardHistoryItemViewModelBase
                             .Replace('\n', '⏎');
                     }
 
-                    _view.PreviewFlyoutContent = text;
+                    PreviewText = text;
                 });
             }
             catch (Exception ex)

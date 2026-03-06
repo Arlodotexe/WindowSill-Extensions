@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -9,79 +9,25 @@ using Windows.Storage.FileProperties;
 using Windows.System;
 using WindowSill.API;
 
-namespace WindowSill.ClipboardHistory.UI;
+namespace WindowSill.ClipboardHistory.ViewModels;
 
+/// <summary>
+/// ViewModel for clipboard history items containing file or folder data.
+/// </summary>
 internal sealed partial class FileItemViewModel : ClipboardHistoryItemViewModelBase
 {
     private readonly ILogger _logger;
-    private readonly SillListViewButtonItem _view;
 
-    private FileItemViewModel(IProcessInteractionService processInteractionService, ClipboardHistoryItem item)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FileItemViewModel"/> class.
+    /// </summary>
+    /// <param name="processInteractionService">Service for interacting with external processes.</param>
+    /// <param name="item">The clipboard history item containing file data.</param>
+    internal FileItemViewModel(IProcessInteractionService processInteractionService, ClipboardHistoryItem item)
         : base(processInteractionService, item)
     {
         _logger = this.Log();
-        _view = new SillListViewButtonItem(base.PasteCommand)
-            .DataContext(
-                this,
-                (view, viewModel) => view
-                    .PreviewFlyoutContent(
-                        new StackPanel()
-                            .Spacing(8)
-                            .Padding(8)
-                            .Children(
-                                new TextBlock()
-                                    .Style(x => x.ThemeResource("BodyTextBlockStyle"))
-                                    .Text(x => x.Binding(() => viewModel.FileCountText))
-                                    .HorizontalAlignment(HorizontalAlignment.Center),
-
-                                new TextBlock()
-                                    .Style(x => x.ThemeResource("CaptionTextBlockStyle"))
-                                    .Foreground(x => x.ThemeResource("TextFillColorSecondaryBrush"))
-                                    .Text(x => x.Binding(() => viewModel.FileListText))
-                                    .TextWrapping(TextWrapping.Wrap)
-                            )
-                    )
-                    .Content(
-                        new Grid()
-                            .ColumnSpacing(8)
-                            .Margin(8, 0, 0, 0)
-                            .ColumnDefinitions(
-                                GridLength.Auto,
-                                new GridLength(1, GridUnitType.Star),
-                                GridLength.Auto
-                            )
-                            .Children(
-                                new SymbolIcon()
-                                    .Grid(column: 0)
-                                    .Symbol(Symbol.Document)
-                                    .MaxHeight(16)
-                                    .MaxWidth(16),
-
-                                new TextBlock()
-                                    .Grid(column: 1)
-                                    .VerticalAlignment(VerticalAlignment.Center)
-                                    .TextTrimming(TextTrimming.CharacterEllipsis)
-                                    .TextWrapping(TextWrapping.NoWrap)
-                                    .Text(x => x.Binding(() => viewModel.DisplayText)),
-
-                                new Button()
-                                    .Grid(column: 2)
-                                    .Style(x => x.StaticResource("IconButton"))
-                                    .MaxWidth(24)
-                                    .Content("\uE8A7")
-                                    .ToolTipService(toolTip: "/WindowSill.ClipboardHistory/Misc/OpenInFileExplorer".GetLocalizedString())
-                                    .Command(x => x.Binding(() => viewModel.OpenInFileExplorerCommand))
-                            )
-                    )
-            );
-
         InitializeAsync().Forget();
-    }
-
-    internal static (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateView(IProcessInteractionService processInteractionService, ClipboardHistoryItem item)
-    {
-        var viewModel = new FileItemViewModel(processInteractionService, item);
-        return (viewModel, viewModel._view);
     }
 
     [ObservableProperty]

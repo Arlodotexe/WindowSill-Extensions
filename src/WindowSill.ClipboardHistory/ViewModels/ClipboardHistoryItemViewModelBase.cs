@@ -1,11 +1,11 @@
-﻿using CommunityToolkit.Diagnostics;
+using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using WindowSill.API;
 
-namespace WindowSill.ClipboardHistory.UI;
+namespace WindowSill.ClipboardHistory.ViewModels;
 
 internal abstract partial class ClipboardHistoryItemViewModelBase
     : ObservableObject,

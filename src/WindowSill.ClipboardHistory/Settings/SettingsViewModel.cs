@@ -28,8 +28,11 @@ internal sealed partial class SettingsViewModel : ObservableObject
 
     public bool IsClipboardHistoryEnabled => Clipboard.IsHistoryEnabled();
 
+    public bool IsClipboardHistoryDisabled => !IsClipboardHistoryEnabled;
+
     private void Clipboard_HistoryEnabledChanged(object? sender, object e)
     {
         OnPropertyChanged(nameof(IsClipboardHistoryEnabled));
+        OnPropertyChanged(nameof(IsClipboardHistoryDisabled));
     }
 }

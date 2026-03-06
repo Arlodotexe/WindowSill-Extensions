@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -126,10 +126,10 @@
   <data name="DisplayName" xml:space="preserve">
     <value>剪贴板历史</value>
   </data>
-  <data name="EmptyClipboard" xml:space="preserve">
+  <data name="EmptyClipboard.TextProperty" xml:space="preserve">
     <value>剪贴板为空。</value>
   </data>
-  <data name="EnableClipboardHistory" xml:space="preserve">
+  <data name="EnableClipboardHistory.TextProperty" xml:space="preserve">
     <value>启用 Windows 剪贴板历史记录</value>
   </data>
   <data name="FileError" xml:space="preserve">

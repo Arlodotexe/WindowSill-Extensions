@@ -3,10 +3,11 @@ using System.ComponentModel.Composition;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Media.Imaging;
 using WindowSill.API;
+using WindowSill.ClipboardHistory.Factories;
 using WindowSill.ClipboardHistory.FirstTimeSetup;
 using WindowSill.ClipboardHistory.Services;
 using WindowSill.ClipboardHistory.Settings;
-using WindowSill.ClipboardHistory.UI;
+using WindowSill.ClipboardHistory.ViewModels;
 
 namespace WindowSill.ClipboardHistory;
 
@@ -17,10 +18,10 @@ namespace WindowSill.ClipboardHistory;
 public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTimeSetup, ISillListView
 {
     private readonly ILogger _logger;
-    private readonly ISettingsProvider _settingsProvider;
-    private readonly IProcessInteractionService _processInteractionService;
     private readonly IPluginInfo _pluginInfo;
+    private readonly ISettingsProvider _settingsProvider;
     private readonly ClipboardHistoryDataService _clipboardDataService;
+    private readonly ClipboardItemViewFactory _viewFactory;
 
     [ImportingConstructor]
     internal ClipboardHistorySill(
@@ -30,10 +31,10 @@ public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTi
         ClipboardHistoryDataService clipboardDataService)
     {
         _logger = this.Log();
-        _processInteractionService = processInteractionService;
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
         _clipboardDataService = clipboardDataService;
+        _viewFactory = new ClipboardItemViewFactory(settingsProvider, processInteractionService);
     }
 
     public string DisplayName => "/WindowSill.ClipboardHistory/Misc/DisplayName".GetLocalizedString();
@@ -53,7 +54,7 @@ public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTi
 
     public ObservableCollection<SillListViewItem> ViewList { get; } = new();
 
-    public SillView? PlaceholderView { get; } = EmptyOrDisabledItemViewModel.CreateView();
+    public SillView? PlaceholderView { get; } = ClipboardItemViewFactory.CreatePlaceholderView();
 
     public IFirstTimeSetupContributor[] GetFirstTimeSetupContributors()
     {
@@ -131,24 +132,12 @@ public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTi
 
                     try
                     {
-                        (viewModel, view) = itemData.DataType switch
-                        {
-                            DetectedClipboardDataType.Image => ImageItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.Text => TextItemViewModel.CreateView(_settingsProvider, _processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.Html => HtmlItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.Rtf => RtfItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.Uri => UriItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.ApplicationLink => ApplicationLinkItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.Color => ColorItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.UserActivity => UserActivityItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.File => FileItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            _ => UnknownItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                        };
+                        (viewModel, view) = _viewFactory.Create(itemData);
                     }
                     catch (Exception ex)
                     {
                         _logger.LogError(ex, "Failed to create a view and viewmodel for a clipboard item.");
-                        (viewModel, view) = UnknownItemViewModel.CreateView(_processInteractionService, itemData.Item);
+                        (viewModel, view) = _viewFactory.Create(new ClipboardItemData(itemData.Item, DetectedClipboardDataType.Unknown));
                     }
 
                     CreateContextMenu(viewModel, view);
