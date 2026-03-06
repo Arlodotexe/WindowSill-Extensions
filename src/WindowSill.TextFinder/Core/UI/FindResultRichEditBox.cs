@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Microsoft.UI.Text;
-using Microsoft.UI.Xaml.Media;
 
 namespace WindowSill.TextFinder.Core.UI;
 
