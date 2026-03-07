@@ -1,5 +1,6 @@
-# 0.9.17.0
+# 0.9.17
 - Added CPU & GPU temperature monitoring.
+- Improved many translations.
 
 # 0.9.13
 - Updated dependencies.

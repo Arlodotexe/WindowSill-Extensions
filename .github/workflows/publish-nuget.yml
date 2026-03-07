@@ -24,10 +24,10 @@ jobs:
       uses: microsoft/setup-msbuild@v2
       
     - name: Restore dependencies
-      run: dotnet restore src/Extensions.slnx
+      run: dotnet restore Extensions.slnx
 
     - name: Pack extensions
-      run: msbuild src/Extensions.slnx /p:Configuration=Release /p:Platform="x64" /p:PackageOutputPath=${{ github.workspace }}/artifacts /p:RestorePackages=false
+      run: msbuild Extensions.slnx /p:Configuration=Release /p:Platform="x64" /p:PackageOutputPath=${{ github.workspace }}/artifacts /p:RestorePackages=false
 
     - name: Build unit tests
       run: msbuild src/UnitTests/UnitTests.csproj /p:Configuration=Release /p:Platform="x64" /p:RestorePackages=false

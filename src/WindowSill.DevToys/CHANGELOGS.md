@@ -1,3 +1,7 @@
+# 0.9.17
+- Updated metadata & dependencies.
+- Improved many translations.
+
 # 0.9.13
 - Updated dependencies.
 
