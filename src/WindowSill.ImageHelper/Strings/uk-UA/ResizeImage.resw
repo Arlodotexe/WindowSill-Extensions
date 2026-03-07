@@ -127,7 +127,7 @@
     <value>Висота</value>
   </data>
   <data name="PercentageBarItem.TextProperty" xml:space="preserve">
-    <value>Відсоток</value>
+    <value>Відсотки</value>
   </data>
   <data name="ResizeButton.ContentProperty" xml:space="preserve">
     <value>Змінити розмір</value>

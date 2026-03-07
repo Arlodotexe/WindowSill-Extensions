@@ -127,7 +127,7 @@
     <value>高度</value>
   </data>
   <data name="PercentageBarItem.TextProperty" xml:space="preserve">
-    <value>百分比</value>
+    <value>比例</value>
   </data>
   <data name="ResizeButton.ContentProperty" xml:space="preserve">
     <value>調整大小</value>

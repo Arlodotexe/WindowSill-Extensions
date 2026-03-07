@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,25 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EnableClipboardHistory.HeaderProperty" xml:space="preserve">
-    <value>Aktivieren Sie die Windows-Zwischenablageverlauf</value>
+    <value>Windows-Zwischenablageverlauf aktivieren</value>
   </data>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>Allgemein</value>
+    <value>Allgemeines</value>
   </data>
   <data name="HidePasswords.DescriptionProperty" xml:space="preserve">
-    <value>Versuchen Sie, kopierten Text zu erkennen und auszublenden, der wie Passwörter aussieht</value>
+    <value>Versuchen Sie, kopierten Text, der wie Passwörter aussieht, zu erkennen und zu verbergen.</value>
   </data>
   <data name="HidePasswords.HeaderProperty" xml:space="preserve">
     <value>Passwörter ausblenden</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>Wie viele Elemente sollten im Zwischenablageverlauf aufbewahrt werden.</value>
+    <value>Wie viele Elemente sollen im Verlauf der Zwischenablage gespeichert werden?</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
-    <value>Maximale Anzahl an Elementen</value>
+    <value>Maximale Anzahl von Artikeln</value>
   </data>
   <data name="OpenWindowsClipboardHistorySettings.HeaderProperty" xml:space="preserve">
-    <value>Windows-Zwischenablageverlaufseinstellungen öffnen</value>
+    <value>Einstellungen für den Windows-Zwischenablageverlauf öffnen</value>
   </data>
   <data name="CompactMode.HeaderProperty" xml:space="preserve">
     <value>Kompaktmodus</value>
