@@ -40,16 +40,19 @@
   <Project Path="src/WindowSill.Teams/WindowSill.Teams.csproj">
     <Platform Project="x64" />
   </Project>
+  <Project Path="src/WindowSill.TextFinder/WindowSill.TextFinder.csproj">
+    <Platform Project="x64" />
+  </Project>
   <Project Path="src/WindowSill.UnitConverter/WindowSill.UnitConverter.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.UniversalCommands/WindowSill.UniversalCommands.csproj" Id="a1da9935-de5a-473b-9c3f-d870a4b5e385">
     <Platform Project="x64" />
   </Project>
   <Project Path="src/WindowSill.URLHelper/WindowSill.URLHelper.csproj">
     <Platform Project="x64" />
   </Project>
   <Project Path="src/WindowSill.WebBrowser/WindowSill.WebBrowser.csproj">
-    <Platform Project="x64" />
-  </Project>
-  <Project Path="src/WindowSill.TextFinder/WindowSill.TextFinder.csproj">
     <Platform Project="x64" />
   </Project>
 </Solution>
