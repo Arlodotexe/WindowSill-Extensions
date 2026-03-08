@@ -1,3 +1,7 @@
+# 0.9.18
+- Fixed an issue where groups orders were not saved after re-ordering them.
+- Improved loading time of the app launcher when it contains many items.
+
 # 0.9.17
 - Updated metadata & dependencies.
 - Improved many translations.
