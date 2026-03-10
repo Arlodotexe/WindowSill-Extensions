@@ -59,9 +59,9 @@ internal sealed class UniversalCommandsGlobalSill : ISillActivatedByDefault, ISi
         _disposableSemaphore.Dispose();
     }
 
-    public ValueTask OnActivatedAsync()
+    public async ValueTask OnActivatedAsync()
     {
-        return ValueTask.CompletedTask;
+        await UpdateSillsAsync();
     }
 
     public ValueTask OnDeactivatedAsync()
