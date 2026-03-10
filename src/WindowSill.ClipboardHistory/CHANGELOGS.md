@@ -1,3 +1,6 @@
+# 0.9.18
+- Changed icon of the Clear History button in compact mode.
+
 # 0.9.17
 - The clipboard can now be compacted into a popup window instead of having all clipboard items displayed in the WindowSill bar.
 - Improved many translations.
