@@ -1,3 +1,6 @@
+# 0.9.18
+- Update text detection performance
+
 # 0.9.17
 - Updated metadata & dependencies.
 - Improved many translations.
