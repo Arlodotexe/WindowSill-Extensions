@@ -29,7 +29,14 @@ internal sealed class ReminderService : IReminderService
     {
         ThreadHelper.ThrowIfNotOnUIThread();
         AppNotificationManager.Default.NotificationInvoked += OnToastNotificationInvoked;
-        AppNotificationManager.Default.Register();
+        try
+        {
+            AppNotificationManager.Default.Register();
+        }
+        catch
+        {
+            /* It throws if already registered by another extension. */
+        }
 
         ViewList.Add(
             new SillListViewPopupItem(

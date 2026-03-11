@@ -1,3 +1,6 @@
+# 0.9.19
+- Fixed a potential crash when registering a toast notification.
+
 # 0.9.18
 - Added support of links in reminder's title. Links will be opened in the default browser when clicked.
 - Reminder's title can now be edited.
