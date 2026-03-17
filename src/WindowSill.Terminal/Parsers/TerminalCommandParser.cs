@@ -46,6 +46,11 @@ internal class TerminalCommandParser
         return mdCodeBlockLanguage is "cmd" or "batch";
     }
 
+    internal static bool HasShellInfoHint(string selectedText)
+    {
+        return HasCmdHint(selectedText) || HasPowerShellHint(selectedText) || HasPwshHint(selectedText) || HasWslHint(selectedText);
+    }
+
     /// <summary>
     /// Given the full text selected by the user, returns the first markdown code block language definition found.
     /// </summary>
@@ -124,11 +129,10 @@ internal class TerminalCommandParser
             // Early exit, return entire line as terminal command.
             if (!line.Contains(commandDelimiter))
             {
-                // Raw line text without a command delimiter may result in non-commands being executed as code.
+                // Raw line text without a shell delimiter may result in non-commands being executed as code.
                 // To know whether this line contains a real command, we must check whether it's an executable binary on PATH.
                 string fileNameWithOrWithoutExtension = line.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries)[0];
                 bool isExecutableBinary = IsExecutableBinaryOnEnvironmentPath(fileNameWithOrWithoutExtension, executableExtensions);
-
                 if (isExecutableBinary)
                 {
                     yield return new(null, line);
@@ -155,6 +159,18 @@ internal class TerminalCommandParser
             // After the symbol only contains the command.
             string beforeCommandDelimiter = beforeAndAfterCommandDelimiter[0];
             string afterCommandDelimiter = beforeAndAfterCommandDelimiter[1];
+
+            if (!line.StartsWith(shellDelimiter) && !HasShellInfoHint(selectedText))
+            {
+                // If no shell delimiter is present and no shell hints are provided, only binaries on PATH can be executed
+                string fileNameWithOrWithoutExtension = afterCommandDelimiter.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries)[0];
+                bool isExecutableBinary = IsExecutableBinaryOnEnvironmentPath(fileNameWithOrWithoutExtension, executableExtensions);
+                if (!isExecutableBinary)
+                {
+                    // Early exit if no shell delimiter or shell hint and no binary on PATH
+                    continue;
+                }
+            }
 
             // Only the selected commands which don't include a command and/or shell delimitor need to be checked for presence on PATH. 
             // With an explicit shell hint or shell delimitor, the selected command may be an interpreted shell function and may pass through.
