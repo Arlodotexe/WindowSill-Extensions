@@ -125,20 +125,33 @@ internal class TerminalCommandParser
         // Iterate lines
         foreach (string line in lines)
         {
+            // Skip known non-command lines
+            if (HasShellInfoHint(line))
+            {
+                continue;
+            }
+
             // If no command delimiter is present, no working directory can be declared.
-            // Early exit, return entire line as terminal command.
             if (!line.Contains(commandDelimiter))
             {
-                // Raw line text without a shell delimiter may result in non-commands being executed as code.
-                // To know whether this line contains a real command, we must check whether it's an executable binary on PATH.
+                // If no command delimiter is defined (no working directory) but a shell delimiter or shell hint is, then we can still skip the PATH binary check.
+                if (line.StartsWith(shellDelimiter) || HasShellInfoHint(selectedText))
+                {
+                    // Remove shell delimiter from line, if any.
+                    string commandTextWithoutDelimiters = line.Split(shellDelimiter, StringSplitOptions.TrimEntries).Last();
+                    yield return new(null, commandTextWithoutDelimiters);
+                    continue;
+                }
+
+                // Raw line text without a shell delimiter or shell hint may result in non-binary commands being captured (e.g. `ls`).
+                // Without knowing which shell to use, only binary files from PATH can be executed.
                 string fileNameWithOrWithoutExtension = line.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries)[0];
                 bool isExecutableBinary = IsExecutableBinaryOnEnvironmentPath(fileNameWithOrWithoutExtension, executableExtensions);
                 if (isExecutableBinary)
                 {
                     yield return new(null, line);
+                    continue;
                 }
-
-                continue;
             }
 
             // Assume the working directory may be declared at start of line
