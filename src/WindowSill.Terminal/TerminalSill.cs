@@ -128,6 +128,7 @@ public sealed class TerminalSill : ISillActivatedByTextSelection, ISillActivated
                 }).ForgetSafely();
             };
 
+            CreateContextMenu(viewModel, listItem);
             _activeCommands.Add(viewModel);
             ViewList.Add(listItem);
         });
@@ -172,7 +173,27 @@ public sealed class TerminalSill : ISillActivatedByTextSelection, ISillActivated
                 }).ForgetSafely();
             };
 
+            CreateContextMenu(vm, listItem);
             ViewList.Add(listItem);
         }
+    }
+
+    private static void CreateContextMenu(CommandItemViewModel viewModel, SillListViewItem view)
+    {
+        var menuFlyout = new MenuFlyout();
+        menuFlyout.Items.Add(new MenuFlyoutItem
+        {
+            Text = "Run",
+            Icon = new SymbolIcon(Symbol.Go),
+            Command = viewModel.RunCommand,
+        });
+        menuFlyout.Items.Add(new MenuFlyoutItem
+        {
+            Text = "Run and copy",
+            Icon = new SymbolIcon(Symbol.Import),
+            Command = viewModel.RunAndCopyCommand,
+        });
+
+        view.ContextFlyout = menuFlyout;
     }
 }

@@ -88,6 +88,13 @@ internal sealed partial class CommandItemViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private async Task RunAndCopyAsync()
+    {
+        await RunAsync();
+        CopyOutput();
+    }
+
+    [RelayCommand]
     private async Task RunAsync()
     {
         State = CommandState.Running;
