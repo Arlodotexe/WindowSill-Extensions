@@ -17,6 +17,9 @@ public sealed class CommandExecutionService : ICommandExecutionService
         Action<string> onOutputLine,
         CancellationToken cancellationToken)
     {
+        // Escape double quotes
+        command = command.Replace("\"", "\\\"");
+
         using Process process = new()
         {
             StartInfo = new ProcessStartInfo
@@ -84,6 +87,9 @@ public sealed class CommandExecutionService : ICommandExecutionService
         Action<string> onOutputLine,
         CancellationToken cancellationToken)
     {
+        // Escape double quotes
+        command = command.Replace("\"", "\\\"");
+
         string tempOutputFile = System.IO.Path.Combine(
             System.IO.Path.GetTempPath(),
             $"windowsill-terminal-{Guid.NewGuid():N}.log");
